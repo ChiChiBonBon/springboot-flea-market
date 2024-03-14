@@ -1,5 +1,6 @@
 package com.chibon.fleamarket.dao.impl;
 
+import com.chibon.fleamarket.constant.ProductCategory;
 import com.chibon.fleamarket.dao.ProductDao;
 import com.chibon.fleamarket.dto.ProductRequest;
 import com.chibon.fleamarket.model.Product;
@@ -23,12 +24,22 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts() {
+    public List<Product> getProducts(ProductCategory productCategory,String search) {
         String sql = "SELECT product_id, product_name, category, image_url, price, stock, description, " +
                      "created_date, last_modified_date " +
-                     "FROM product";
+                     "FROM product WHERE 1=1";
 
         Map<String,Object> map = new HashMap<>();
+
+        if(productCategory != null){
+            sql = sql + " AND CATEGORY = :category";
+            map.put("category",productCategory.name());
+        }
+
+        if(search != null){
+            sql = sql + " AND product_name LIKE :search";
+            map.put("search","%" + search + "%");
+        }
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql,map,new ProductRowMapper());
 

@@ -1,5 +1,6 @@
 package com.chibon.fleamarket.service.impl;
 
+import com.chibon.fleamarket.constant.ProductCategory;
 import com.chibon.fleamarket.dao.ProductDao;
 import com.chibon.fleamarket.dto.ProductRequest;
 import com.chibon.fleamarket.model.Product;
@@ -14,10 +15,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
 
-
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory productCategory,String search) {
+        return productDao.getProducts(productCategory,search);
     }
 
     @Override
