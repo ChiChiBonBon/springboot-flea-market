@@ -1,6 +1,6 @@
 package com.chibon.fleamarket.dao;
 
-import com.chibon.fleamarket.constant.ProductCategory;
+import com.chibon.fleamarket.dto.ProductQueryParams;
 import com.chibon.fleamarket.dto.ProductRequest;
 import com.chibon.fleamarket.model.Product;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductDao {
 
-    List<Product> getProducts(ProductCategory productCategory,String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById(Integer productId);
 

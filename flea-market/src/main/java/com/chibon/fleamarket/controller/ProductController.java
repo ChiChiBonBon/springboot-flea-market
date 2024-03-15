@@ -1,6 +1,7 @@
 package com.chibon.fleamarket.controller;
 
 import com.chibon.fleamarket.constant.ProductCategory;
+import com.chibon.fleamarket.dto.ProductQueryParams;
 import com.chibon.fleamarket.dto.ProductRequest;
 import com.chibon.fleamarket.model.Product;
 import com.chibon.fleamarket.service.ProductService;
@@ -21,8 +22,12 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProduct(
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
-    ){
-        List<Product> productList = productService.getProducts(category,search);
+    ){//物件包裏
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
