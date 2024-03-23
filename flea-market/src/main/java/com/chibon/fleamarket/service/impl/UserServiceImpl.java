@@ -1,6 +1,7 @@
 package com.chibon.fleamarket.service.impl;
 
 import com.chibon.fleamarket.dao.UserDao;
+import com.chibon.fleamarket.dto.UserLoginRequest;
 import com.chibon.fleamarket.dto.UserRegisterRequest;
 import com.chibon.fleamarket.model.User;
 import com.chibon.fleamarket.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+//Service層的邏輯會有一點複雜，因牽涉各種商業情境，如檢查email有無，從DAO撈取資料再重組
 @Component
 public class UserServiceImpl implements UserService {
 
@@ -36,5 +38,22 @@ public class UserServiceImpl implements UserService {
 
         //創建帳號
         return userDao.createUser(userRegisterRequest);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if(user == null){
+            log.warn("該 email {} 尚未註冊",userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if(user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        } else {
+            log.warn("email {} 的密碼不正確", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }

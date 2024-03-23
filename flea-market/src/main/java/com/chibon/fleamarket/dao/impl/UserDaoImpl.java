@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//DAO層只能跟資料庫做溝通
 @Component
 public class UserDaoImpl implements UserDao {
 
