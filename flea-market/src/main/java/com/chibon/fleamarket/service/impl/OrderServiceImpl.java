@@ -5,6 +5,7 @@ import com.chibon.fleamarket.dao.ProductDao;
 import com.chibon.fleamarket.dao.UserDao;
 import com.chibon.fleamarket.dto.BuyItem;
 import com.chibon.fleamarket.dto.CreateOrderRequest;
+import com.chibon.fleamarket.dto.OrderQueryParams;
 import com.chibon.fleamarket.model.Order;
 import com.chibon.fleamarket.model.OrderItem;
 import com.chibon.fleamarket.model.Product;
@@ -94,5 +95,22 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItemList(orderItemList);
 
         return order;
+    }
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for(Order order : orderList){
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+
+            order.setOrderItemList(orderItemList);
+        }
+        return orderList;
     }
 }

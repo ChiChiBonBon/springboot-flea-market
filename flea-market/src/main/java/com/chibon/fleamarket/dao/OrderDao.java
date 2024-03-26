@@ -1,5 +1,6 @@
 package com.chibon.fleamarket.dao;
 
+import com.chibon.fleamarket.dto.OrderQueryParams;
 import com.chibon.fleamarket.model.Order;
 import com.chibon.fleamarket.model.OrderItem;
 
@@ -13,4 +14,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
+
+    List<Order> getOrders(OrderQueryParams orderQueryParams);
 }
